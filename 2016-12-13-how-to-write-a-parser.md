@@ -1,16 +1,30 @@
+# 话题1：怎样实现一个 Parser
+
+## 建立项目
+
 1. 初始化stack项目
 
-	> stack new dazuoye
+		> stack new dazuoye
+		
+	关于 stack 使用的介绍：[Hackage,Stackage,stack.md](Hackage,Stackage,stack.md)
 
-2. .cabal 干掉 executable 和 testsuite
+2. 修改 `dazuoye/dazuoye.cabal` 
 
-我们先只关心lib
++ 删除 executable dazuoye-exe 和 test-suite dazuoye-test 这两块儿配置（可能是24到39行）。我们先只关心library。
 
-3.
-dependency 里添加
-	
-	,text
-	,attoparsec
++ 在`dazuoye/dazuoye.cabal`的library的build-depends 里添加
+
+		,text
+		,attoparsec
+添加之后的样子：
+
+		library
+		  hs-source-dirs:      src
+		  exposed-modules:     Lib
+		  build-depends:       base >= 4.7 && < 5
+		                       ,text
+		                       ,attoparsec
+		  default-language:    Haskell2010
 
 此时执行
 
@@ -18,26 +32,37 @@ dependency 里添加
 	
 会需要较长时间去下载和构建这两个依赖。
 
-4.
-## 替代IDE的 基于ghci的 ghcid
+## 可选的工具：ghcid
 
-> cd dazuoye
-> stack install ghcid
+承担一些IDE的职责 。
 
-5. 
-(在 dazuoye 目录下)
-> ghcid
+是基于ghci的。
 
-6. 
-在屏幕的一边儿编辑 Lib.hs
-另一边儿开着 ghcid
+### 用上之后的效果
 
-每次一保存 Lib.hs，ghcid就即时检查错误，报错或显式 all good。
-……这很敏捷
+在屏幕的一边儿编辑 Lib.hs，另一边儿开着 ghcid。
+
+每次一保存 Lib.hs，ghcid就即时检查错误，报错或显示 all good。……这很敏捷
+
+TODO 配个图
+
+### 安装和执行
+
+	> cd dazuoye
+	> stack install ghcid
+	> ghcid
+
+p.s. 在 macOS 上，ghcid 可执行文件会被放到 `~/.local/bin`
+
+所以需要把 `~/.local/bin` 加入环境变量 PATH，或直接调用 `~/.local/bin/ghcid ` 而非 `ghcid`.
+
+其他系统没试……
+
+# --- 2016-12-13 12:02:17 施工分割线 以下内容未详细整理 ---
 
 ## text 库
 
-额……干啥的？
+额……一种更好的字符串？
 
 	import Data.String
 	
@@ -184,7 +209,7 @@ Applicative 类型类的实例都有的 alternative 操作符 <|>
 	{# Language #}
 ---
 
-还有一个话题：怎样实现一个 REPL 
+# 话题2：怎样实现一个 REPL (ghci, python 那样的交互式环境，
 ---
 
 https://hackage.haskell.org/package/text-1.2.2.1/docs/Data-Text-IO.html
@@ -196,8 +221,10 @@ https://hackage.haskell.org/package/text-1.2.2.1/docs/Data-Text-IO.html
 	The interact function takes a function of type Text -> Text as its argument. The entire input from the standard input device is passed to this function as its argument, and the resulting string is output on the standard output device.
 	
 以一个 Text -> Text 函数作为输入，即可得到一个交互器……	
-:
+Data.Text.IO.interact :: (Text -> Text) -> IO () Source
+以一个 Text -> Text 函数作为输入，即可得到一个交互器……
 
+f 
 	
 	
 ## 问题：这样暂时没法保存状态
