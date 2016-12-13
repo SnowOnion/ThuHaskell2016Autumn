@@ -124,16 +124,16 @@ trueParser = string "True"
 
 ### 下面, not 表达式
 
-notParser :: Parser Expr
-notParser = do
-	char '('
-	skipspace
-	string "not"
-	skipspace
-	expr <- exprParser -- 绑定到 expr 这个名字
-	skipspace
-	char ')'
-	return (Not expr) -- 返回出的样子 诶这里为什么可以用空格？
+	notParser :: Parser Expr
+	notParser = do
+		char '('
+		skipspace
+		string "not"
+		skipspace
+		expr <- exprParser -- 绑定到 expr 这个名字
+		skipspace
+		char ')'
+		return (Not expr) -- 使用 Not 这个 data constructor，构造出有利于我们后续处理的（树形）结构
 		
 这需要改造成
 
@@ -149,7 +149,7 @@ notParser = do
 Applicative 
 alternative 操作符 <|>
 p0 <|> p1
-含义：先p0解析，
+含义：先p0解析，如果失败，则用p1解析
 
 exprParser :: Parser Expr
 exprParser = falseParser <|> trueParser <|> notParser
@@ -172,10 +172,10 @@ exprParser = falseParser <|> trueParser <|> notParser
 	notParser = do
 		lexeme $ char '('
 		lexeme $ string "not"
-		expr <- exprParser -- 绑定到 expr 这个名字
+		expr <- exprParser
 		lexeme $ char ')'
-		return (Not expr) -- 返回出的样子 诶这里为什么可以用空格？
+		return (Not expr) 
 
 ---
-{# Language #}
+	{# Language #}
 ---
