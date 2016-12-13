@@ -187,3 +187,28 @@ Applicative 类型类的实例都有的 alternative 操作符 <|>
 还有一个话题：怎样实现一个 REPL 
 ---
 
+https://hackage.haskell.org/package/text-1.2.2.1/docs/Data-Text-IO.html
+
+	import Data.Text.IO
+	
+	interact :: (Text -> Text) -> IO () Source
+	
+	The interact function takes a function of type Text -> Text as its argument. The entire input from the standard input device is passed to this function as its argument, and the resulting string is output on the standard output device.
+	
+以一个 Text -> Text 函数作为输入，即可得到一个交互器……	
+:
+
+	
+	
+## 问题：这样暂时没法保存状态
+暂时没法实现
+
+	> a=1
+	1
+	> a
+	1
+	> b
+	undefined
+这种。
+
+下节课说 可保存状态的 REPL。
