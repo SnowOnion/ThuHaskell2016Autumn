@@ -16,7 +16,7 @@ dependency 里添加
 
 	> stack ghci
 	
-会需要较长时间去下载和构建这两个依赖
+会需要较长时间去下载和构建这两个依赖。
 
 4.
 ## 替代IDE的 基于ghci的 ghcid
@@ -146,22 +146,26 @@ trueParser = string "True"
 	trueParser = string "True" $> TrueLit
 
 
-Applicative 
-alternative 操作符 <|>
-p0 <|> p1
+Applicative 类型类的实例都有的 alternative 操作符 <|>
+
+	p0 <|> p1
 含义：先p0解析，如果失败，则用p1解析
 
-exprParser :: Parser Expr
-exprParser = falseParser <|> trueParser <|> notParser
+所以：
+
+	exprParser :: Parser Expr
+	exprParser = falseParser <|> trueParser <|> notParser
 
 
 
-### and 和 or 的 parser 留给读者
+### and 和 or 的 parser 
+
+留给读者
 
 ### 烦恼：每次手动 skipspace
 一般，编译时先lexing，排除注释、空白，把字符串变成token串。而我们的parser省了lexing这一步……
 
-一个解决办法：写一个lexeme
+一个解决办法：写一个lexeme。“抽象出去掉空格这个设计模式”。
 
 	lexeme :: Parser a -> Parser a
 	lexeme p = do
@@ -179,3 +183,7 @@ exprParser = falseParser <|> trueParser <|> notParser
 ---
 	{# Language #}
 ---
+
+还有一个话题：怎样实现一个 REPL 
+---
+
