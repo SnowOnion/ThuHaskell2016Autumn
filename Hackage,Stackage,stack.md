@@ -1,6 +1,10 @@
 [Hackage](http://hackage.haskell.org), [Stackage](https://www.stackage.org) 和 Stackage 提供的 Haskell 项目构建工具 stack
 ---
 
+授课：[他](https://zhuanlan.zhihu.com/p/21798264#!)
+
+Licence：暂时 all rights reserved
+
 # [Hackage](http://hackage.haskell.org)
 Hackage 是 Haskell 的一个中心化包仓库。这种形式在成熟语言里蛮常见，比如 Java 的 Maven。
 
