@@ -13,7 +13,9 @@ dependency 里添加
 	,attoparsec
 
 此时执行
-> stack ghci
+
+	> stack ghci
+	
 会需要较长时间去下载和构建这两个依赖
 
 4.
@@ -35,13 +37,16 @@ dependency 里添加
 
 ## text 库
 
+额……干啥的？
 
-IsString
-
-import Data.String
-:set -XOverloadedStrings
-
-t::Text
+	import Data.String
+	
+	import Data.Text
+	
+	:set -XOverloadedStrings
+	
+	t::Text
+	t="123"
 
 
 ## attoparsec 库
@@ -90,5 +95,87 @@ trueParser2 = string "True"
 trueParser3 = asciiCI "True"
 
 
+现在我们会parse出一个字符串了。
 
-# 定义一些语法结构
+# 定义一些语法结构，以布尔表达式为例
+
+module Lib where
+
+data Expr
+	= TrueLit
+	| FalseLit
+	| Not Expr
+	| And Expr Expr
+	| Or Expr Expr
+	deriring Show
+	
+	
+-- 先定一个顶层目标
+exprParser :: Parser Expr
+exprParser = undefined 
+
+### 如果只管 "True" 和 "False"
+
+falseParser :: Parser Text
+falseParser = string "False"
+
+trueParser :: Parser Text
+trueParser = string "True"
+
+### 下面, not 表达式
+
+notParser :: Parser Expr
+notParser = do
+	char '('
+	skipspace
+	string "not"
+	skipspace
+	expr <- exprParser -- 绑定到 expr 这个名字
+	skipspace
+	char ')'
+	return (Not expr) -- 返回出的样子 诶这里为什么可以用空格？
+		
+这需要改造成
+
+	falseParser :: Parser Expr
+	falseParser = string "False" $> FalseLit
+	
+	-- $> 是啥？
+	
+	trueParser :: Parser Expr
+	trueParser = string "True" $> TrueLit
+
+
+Applicative 
+alternative 操作符 <|>
+p0 <|> p1
+含义：先p0解析，
+
+exprParser :: Parser Expr
+exprParser = falseParser <|> trueParser <|> notParser
+
+
+
+### and 和 or 的 parser 留给读者
+
+### 烦恼：每次手动 skipspace
+一般，编译时先lexing，排除注释、空白，把字符串变成token串。而我们的parser省了lexing这一步……
+
+一个解决办法：写一个lexeme
+
+	lexeme :: Parser a -> Parser a
+	lexeme p = do
+		skipSpace
+		p
+
+	notParser :: Parser Expr
+	notParser = do
+		lexeme $ char '('
+		lexeme $ string "not"
+		expr <- exprParser -- 绑定到 expr 这个名字
+		lexeme $ char ')'
+		return (Not expr) -- 返回出的样子 诶这里为什么可以用空格？
+
+---
+{# Language #}
+---
