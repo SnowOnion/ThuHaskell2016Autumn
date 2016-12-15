@@ -1,18 +1,26 @@
+讲课的：[Canto Ostinato](https://github.com/terrorjack)
+
+记笔记的：SnowOnion
+
+Licence：暂时 all rights reserved。取决于 Canto Ostinato 的授权。
+
 # 话题1：怎样实现一个 Parser
 
 ## 建立项目
 
-1. 初始化stack项目
+1. 初始化stack项目（并使用用最新的snapshot……）
 
-		> stack new dazuoye
+		$ stack new dazuoye --resolver nightly-2016-12-12
+
+	记号约定：用 `$ x -y z` 表示用命令行执行 `x -y z`。用 `ww $ x -y z` 表示在 `ww` 这个工作目录下执行 `x -y z`。
 		
-	关于 stack 使用的介绍：[Hackage,Stackage,stack.md](Hackage,Stackage,stack.md)
+	关于 stack 和 snapshot 的介绍：[Hackage,Stackage,stack.md](Hackage,Stackage,stack.md)
 
 2. 修改 `dazuoye/dazuoye.cabal` 
 
 + 删除 executable dazuoye-exe 和 test-suite dazuoye-test 这两块儿配置（可能是24到39行）。我们先只关心library。
 
-+ 在`dazuoye/dazuoye.cabal`的library的build-depends 里添加
++ 在`dazuoye/dazuoye.cabal`的library的build-depends 里添加两个依赖
 
 		,text
 		,attoparsec
@@ -28,13 +36,13 @@
 
 此时执行
 
-	> stack ghci
-	
+	$ stack ghci
+
 会需要较长时间去下载和构建这两个依赖。
 
 ## 可选的工具：ghcid
 
-承担一些IDE的职责 。
+ghcid承担一些IDE的职责 。
 
 是基于ghci的。
 
@@ -42,39 +50,76 @@
 
 在屏幕的一边儿编辑 Lib.hs，另一边儿开着 ghcid。
 
-每次一保存 Lib.hs，ghcid就即时检查错误，报错或显示 all good。……这很敏捷
+每次一保存文件，ghcid就即时检查错误，报错或显示 all good。……这很敏捷
 
-TODO 配个图
+![ghcid](ghcid.gif)
 
-### 安装和执行
+### 安装和运行
 
-	> cd dazuoye
-	> stack install ghcid
-	> ghcid
+	$ cd dazuoye
+	dazuoye $ stack install ghcid
+	dazuoye $ ghcid
 
 p.s. 在 macOS 上，ghcid 可执行文件会被放到 `~/.local/bin`
 
 所以需要把 `~/.local/bin` 加入环境变量 PATH，或直接调用 `~/.local/bin/ghcid ` 而非 `ghcid`.
 
-其他系统没试……
-
-# --- 2016-12-13 12:02:17 施工分割线 以下内容未详细整理 ---
+其他系统没试。
 
 ## text 库
 
-额……一种更好的字符串？
+[https://hackage.haskell.org/package/text-1.2.2.1](https://hackage.haskell.org/package/text-1.2.2.1)
 
-	import Data.String
+Data.Text 是一种更好的字符串类型。
+
+在 ghci 里试一下：
 	
-	import Data.Text
+	dazuoye $ stack ghci
+	blah blah
+	Ok, modules loaded: Lib.
+	blah blah
 	
-	:set -XOverloadedStrings
+	*Lib Lib> import Data.Text
+	*Lib Lib Data.Text> :{
+	*Lib Lib Data.Text| t :: Text
+	*Lib Lib Data.Text| t = "123"
+	*Lib Lib Data.Text| :}
 	
-	t::Text
-	t="123"
+	<interactive>:4:5: error:
+	    • Couldn't match expected type ‘Text’ with actual type ‘[Char]’
+	    • In the expression: "123"
+	      In an equation for ‘t’: t = "123"
+	*Lib Lib Data.Text> :set -XOverloadedStrings
+	*Lib Lib Data.Text> :{
+	*Lib Lib Data.Text| t :: Text
+	*Lib Lib Data.Text| t = "123"
+	*Lib Lib Data.Text| :}
+	*Lib Lib Data.Text> t
+	"123"
+	*Lib Lib Data.Text> :t t
+	t :: Text
+	
+请注意 `:set -XOverloadedStrings` 。这[让字符串字面量可以直接绑定到 Text 类型的变量上](http://stackoverflow.com/questions/6363834/why-dont-the-data-text-examples-work-for-me)。
+
+在 .hs 文件中，要做相同的配置，需要在文件第一行加 `{-# LANGUAGE OverloadedStrings #-}`。见 [dazuoye/src/Lib.hs]()。
 
 
 ## attoparsec 库
+
+### 太长不看（或者上课已经听过了）
+
+这里是[上课讲的完整示例](dazuoye)。
+
+#### 用法
+
+	$ cd dazuoye
+	dazuoye $ stack ghci
+
+### 即使很长也想看
+
+下面大致记录了课上的讲解过程。
+
+# --- 2016-12-13 21:57:24 施工分割线 以下内容未详细整理 格式也乱七八糟 还可能有错---
 
 各种parser大致都是
 Input -> Maybe (Result,Input)
@@ -205,8 +250,7 @@ Applicative 类型类的实例都有的 alternative 操作符 <|>
 		lexeme $ char ')'
 		return (Not expr) 
 
----
-	{# Language #}
+
 ---
 
 # 话题2：怎样实现一个 REPL (ghci, python 那样的交互式环境，
