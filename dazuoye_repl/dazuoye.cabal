@@ -1,0 +1,47 @@
+name:                dazuoye
+version:             0.1.0.0
+synopsis:            Initial project template from stack
+description:         Please see README.md
+homepage:            https://github.com/githubuser/dazuoye#readme
+license:             BSD3
+license-file:        LICENSE
+author:              Author name here
+maintainer:          example@example.com
+copyright:           2016 Author name here
+category:            Web
+build-type:          Simple
+extra-source-files:  README.md
+cabal-version:       >=1.10
+
+library
+  hs-source-dirs:      src
+  exposed-modules:     Lib
+                       Lib2
+                       Lib3
+                       Lib4
+  build-depends:       base >= 4.7 && < 5
+                     , text
+                     , attoparsec
+                     , pretty
+                     , GenericPretty
+                     , mtl
+                     , containers
+  default-language:    Haskell2010
+  
+executable dazuoye
+  hs-source-dirs:      app
+  main-is:             Main.hs
+  build-depends:       base
+                     , text
+                     , attoparsec
+                     , pretty
+                     , GenericPretty
+                     , mtl
+                     , dazuoye
+                     , containers
+  default-language:    Haskell2010
+
+
+source-repository head
+  type:     git
+  location: https://github.com/githubuser/dazuoye
