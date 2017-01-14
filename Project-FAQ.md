@@ -36,7 +36,18 @@ Project-FAQ
 不在列表里的不一定不可用。如果你想用的 package 不在这个列表里，请联系助教，取得同意后可以使用。被同意的 package 会更新到这里 :D
 
 ```
-TODO 
+attoparsec
+containers
+GenericPretty
+haskeline
+HUnit
+optparse-applicative
+pretty
+QuickCheck
+test-framework
+test-framework-hunit
+test-framework-quickcheck2
+text
 ```
 
 # 已知不允许使用的 package
@@ -59,6 +70,8 @@ TODO
 
 这里提供一些源程序，以及对它们的期望行为。如果这些期望行为与作业的需求文档有冲突，以作业的需求文档为准。<!--（包括上述的 undefined behavoir）-->
 
+特别是输出格式，仅供参考。
+
 **求值后的结果**：用源程序语法表示。
 
 **求值后的AST（供参考）**：求值结束时的抽象语法树。用 Haskell 语法表示。如果你用了网络学堂里提供的 Simple.hs 和 While.hs，
@@ -71,9 +84,9 @@ TODO
 
 | 源程序 | 求值后的结果 |  求值后的AST（供参考） | 输出（供参考）
 | :--------   | :---   | :---- | :---|
-|nil|nil|NilResult|nil|
+|nil|nil|NilResult|nil 或 ()|
 |'a'|'a'|CharLit 'a'|a
-|"ab"|(cons 'a' (cons 'b' nil))|ConsResult 'a' (ConsResult 'b' NilResult) | (cons 'a' (cons 'b' nil))
+|"ab"|(cons 'a' (cons 'b' nil))|ConsResult 'a' (ConsResult 'b' NilResult) | (cons 'a' (cons 'b' nil)) 或 ('a' ('b' ()))
 |(cons 'a' (cons 'b' nil))|(cons 'a' (cons 'b' nil))| ConsResult 'a' (ConsResult 'b' NilResult)|(cons 'a' (cons 'b' nil))
 |(car (cons 'a' (cons 'b' nil)))|'a'|CharResult 'a'|a
 |(cdr (cdr (cons 'a' (cons "bcd" nil))))|nil|NilResult|nil
