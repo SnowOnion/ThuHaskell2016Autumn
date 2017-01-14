@@ -1,0 +1,15 @@
+# sort -f package_ok.txt 
+ansi-terminal
+attoparsec
+containers
+GenericPretty
+haskeline
+HUnit
+optparse-applicative
+parsec
+pretty
+QuickCheck
+test-framework
+test-framework-hunit
+test-framework-quickcheck2
+text

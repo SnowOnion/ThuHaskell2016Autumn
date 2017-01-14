@@ -35,21 +35,7 @@ Project-FAQ
 
 不在列表里的不一定不可用。如果你想用的 package 不在这个列表里，请联系助教，取得同意后可以使用。被同意的 package 会更新到这里 :D
 
-```
-attoparsec
-containers
-GenericPretty
-haskeline
-HUnit
-optparse-applicative
-pretty
-QuickCheck
-test-framework
-test-framework-hunit
-test-framework-quickcheck2
-text
-
-```
+[package-ok.txt](package-ok.txt)
 
 # 已知不允许使用的 package
 
