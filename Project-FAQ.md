@@ -33,7 +33,7 @@ Project-FAQ
 
 按字典序排列。
 
-如果你想用的 package 不在这个列表里，请联系助教，取得同意后可以使用。被同意的 package 会更新到这里 :D
+不在列表里的不一定不可用。如果你想用的 package 不在这个列表里，请联系助教，取得同意后可以使用。被同意的 package 会更新到这里 :D
 
 ```
 TODO 
@@ -46,3 +46,38 @@ TODO
 ```
 TODO
 ```
+
+# 程序的行为
+
+## 关于文档里未详细定义的行为
+
+在作业的需求文档里没有良好定义的程序行为，请当做 undefined behavoir，即在出现这样的源程序时，可以用你认为合理的方式处理。
+
+请在交付的文档里写明对这些情形的处理方式。最好有相应的测试用例来明显地体现这些情形。
+
+## 一些参考程序
+
+这里提供一些源程序，以及对它们的期望行为。如果这些期望行为与作业的需求文档有冲突，以作业的需求文档为准。<!--（包括上述的 undefined behavoir）-->
+
+**求值后的结果**：用源程序语法表示。
+
+**求值后的AST（供参考）**：求值结束时的抽象语法树。用 Haskell 语法表示。如果你用了网络学堂里提供的 Simple.hs 和 While.hs，
+
+*P.S. `Simple.hs` 的 `data Result` 漏掉了 `CharResult Char` 这种结点。抱歉。*
+
+**输出（供参考）**：解释执行、在 REPL 中求值该表达式、编译执行 时的期望输出。
+
+### 实现 3.1 所有特性之后
+
+| 源程序 | 求值后的结果 |  求值后的AST（供参考） | 输出（供参考）
+| :--------   | :---   | :---- | :---|
+|nil|nil|NilResult|nil|
+|'a'|'a'|CharLit 'a'|a
+|"ab"|(cons 'a' (cons 'b' nil))|ConsResult 'a' (ConsResult 'b' NilResult) | (cons 'a' (cons 'b' nil))
+|(cons 'a' (cons 'b' nil))|(cons 'a' (cons 'b' nil))| ConsResult 'a' (ConsResult 'b' NilResult)|(cons 'a' (cons 'b' nil))
+|(car (cons 'a' (cons 'b' nil)))|'a'|CharResult 'a'|a
+|(cdr (cdr (cons 'a' (cons "bcd" nil))))|nil|NilResult|nil
+|(cons 1 nil)|1|NumberLit 1|1
+|(cons True (cons (/ 2.46 2) False))|(cons True (cons 1.23 False))|ConsResult (BoolResult True) (ConsResult (NumResult 1.23) (BoolResult False)|(cons True (cons 1.23 False))
+
+`TODO`
