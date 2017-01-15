@@ -8,7 +8,7 @@ Project-FAQ
 
 本文档会持续更新。在大作业期间，你可以在 Github 上 watch 本仓库，以在本文档（以及本仓库）被修改时收到邮件通知。
 
-你可以发邮件（snowonionlee@gmail.com）、提 issue、通过微信（snowonion）（不是很喜欢- -）来联系助教。
+你可以发邮件（snowonionlee@gmail.com, chengxi09@gmail.com）、提 issue、通过微信（snowonion）（不是很喜欢- -）来联系助教。
 
 
 # (Maybe F)AQ
