@@ -136,6 +136,15 @@ etc.
 
 通过让 main 返回不同的值来说明测试用例是否通过。具体写法需参考文档。 TODO
 
+## 初始化
+
+	> cd some-package
+	> stack init
+## Setup
+
+	> cd some-package
+	> stack setup
+会安装所需要的 GHC 版本，等。
 ## 构建
 
 	> cd some-package
